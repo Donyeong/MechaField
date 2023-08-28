@@ -36,8 +36,8 @@ public class CameraController : Singleton<CameraController>
 
     Transform childCameraTransform;
 
-    public float currentX = 0;
-    public float currentY = 0;
+    public float rotateX = 0;
+    public float rotateY = 0;
 
 
     bool mbMoving = false;
@@ -46,10 +46,10 @@ public class CameraController : Singleton<CameraController>
     float mMinEulerY = -90;
     float mMaxEulerY = 80;
 
-    float mZoomOffset = 4;
+    [SerializeField] float zoomOffset = 4;
 
-    float mMinZoom = 2;
-    float mMaxZoom = 7;
+    [SerializeField] float minZoom = 2;
+    [SerializeField] float maxZoom = 7;
     [HideInInspector] public Vector3 centor = Vector3.zero;
     Camera mCam;
 
@@ -81,7 +81,9 @@ public class CameraController : Singleton<CameraController>
 
 	private void Start()
 	{
-        Game.Instance.GetPlayer().actor_event.AddListner<PostAttackSuccessEvent>(OnPlayerAttack);
+        Player player = Game.Instance.GetPlayer();
+        EventBus<ActorEvent> actor_event_eb = player.actor_event;
+        actor_event_eb.AddListner<PostAttackSuccessEvent>(OnPlayerAttack);
     }
 
     void OnPlayerAttack(PostAttackSuccessEvent _ae)
@@ -100,18 +102,18 @@ public class CameraController : Singleton<CameraController>
         UpdateCameraState();
         InputCameraMode();
 
-        cameraRotationX = Quaternion.Euler(0, currentX, 0);
+        cameraRotationX = Quaternion.Euler(0, rotateX, 0);
 
         if (cameraState == eCameraState.GamePlay)
         {
-            RotatePlayerInput();
-            ZoomPlayerInput();
+            UpdateRotate();
+            UpdateZoom();
             UpdatePosition(CameraSpeed);
         }
 
         if (cameraState == eCameraState.Attack)
         {
-            RotatePlayerInput();
+            UpdateRotate();
             UpdatePosition(AttackCameraSpeed);
         }
 
@@ -161,37 +163,37 @@ public class CameraController : Singleton<CameraController>
     }
 
 
-    void RotatePlayerInput()
+    void UpdateRotate()
     {
-        currentX += Input.GetAxis("Mouse X") * sensitivityX;
-        currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
+        //currentX += Input.GetAxis("Mouse X") * sensitivityX;
+        //currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
         ApplyRotate();
     }
 
-    void ZoomPlayerInput()
+    void UpdateZoom()
     {
         if (Input.mouseScrollDelta.y != 0)
         {
-            mZoomOffset += Input.mouseScrollDelta.y * zoomSensitivity;
-            mZoomOffset = Mathf.Clamp(mZoomOffset, mMinZoom, mMaxZoom);
+            zoomOffset += Input.mouseScrollDelta.y * zoomSensitivity;
+            zoomOffset = Mathf.Clamp(zoomOffset, minZoom, maxZoom);
         }
     }
 
     void SmoothZoomPositionUpdate()
 	{
-        childCameraLocalPosition.z = Mathf.Lerp(childCameraLocalPosition.z, -mZoomOffset, zoomOutSpeed);
+        childCameraLocalPosition.z = Mathf.Lerp(childCameraLocalPosition.z, -zoomOffset, zoomOutSpeed);
         childCameraTransform.localPosition = childCameraLocalPosition;
     }
 
 
     void ApplyRotate()
     {
-        currentX = Mathf.Repeat(currentX, 360);
-        currentY = Mathf.Clamp(currentY, mMinEulerY, mMaxEulerY);
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+        rotateX = Mathf.Repeat(rotateX, 360);
+        rotateY = Mathf.Clamp(rotateY, mMinEulerY, mMaxEulerY);
+        Quaternion rotation = Quaternion.Euler(rotateY, rotateX, 0);
         gameObject.transform.rotation = rotation;
-        cameraRotationX = Quaternion.Euler(0, currentX, 0);
-        cameraRotation = Quaternion.Euler(currentY, currentX, 0);
+        cameraRotationX = Quaternion.Euler(0, rotateX, 0);
+        cameraRotation = Quaternion.Euler(rotateY, rotateX, 0);
     }
 
     void InputCameraMode()
