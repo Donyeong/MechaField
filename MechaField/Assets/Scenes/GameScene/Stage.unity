@@ -518,13 +518,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDontDestroy: 0
   xRotatable: 1
-  yRotatable: 0
+  yRotatable: 1
   targetTransform: {fileID: 1464194079}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
   sensitivityX: 2
-  sensitivityY: 1
-  zoomSensitivity: 0.7
-  zoomOutSpeed: 0.4
+  sensitivityY: 0.2
+  zoomSensitivity: 0.3
+  zoomOutSpeed: 0.1
   cameraDrag: 0.8
   CameraSpeed: 20
   AttackCameraSpeed: 60
@@ -533,6 +533,8 @@ MonoBehaviour:
     m_Bits: 0
   rotateX: 45
   rotateY: 45
+  minEulerY: 35
+  maxEulerY: 55
   zoomOffset: 7
   minZoom: 2
   maxZoom: 15

@@ -45,9 +45,9 @@ public class CameraController : Singleton<CameraController>
 
     bool mbMoving = false;
     bool mbZooming = false;
-   
-    float mMinEulerY = -90;
-    float mMaxEulerY = 80;
+
+    [SerializeField] float minEulerY = -90;
+    [SerializeField] float maxEulerY = 80;
 
     [SerializeField] float zoomOffset = 4;
 
@@ -194,7 +194,7 @@ public class CameraController : Singleton<CameraController>
     void ApplyRotate()
     {
         rotateX = Mathf.Repeat(rotateX, 360);
-        rotateY = Mathf.Clamp(rotateY, mMinEulerY, mMaxEulerY);
+        rotateY = Mathf.Clamp(rotateY, minEulerY, maxEulerY);
         Quaternion rotation = Quaternion.Euler(rotateY, rotateX, 0);
         gameObject.transform.rotation = rotation;
         cameraRotationX = Quaternion.Euler(0, rotateX, 0);
