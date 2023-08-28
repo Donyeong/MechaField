@@ -20,6 +20,9 @@ public class CameraController : Singleton<CameraController>
     public static float addUpdateZoomSpeed = 5f;
     public static eCameraState cameraState = eCameraState.GamePlay;
 
+    [SerializeField] bool xRotatable = false;
+    [SerializeField] bool yRotatable = false;
+
     [SerializeField] Transform targetTransform;
     [SerializeField] Vector3 offset = Vector3.zero;
 
@@ -165,8 +168,10 @@ public class CameraController : Singleton<CameraController>
 
     void UpdateRotate()
     {
-        //currentX += Input.GetAxis("Mouse X") * sensitivityX;
-        //currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
+        if(xRotatable)
+            rotateX += Input.GetAxis("Mouse X") * sensitivityX;
+        if (yRotatable)
+            rotateY -= Input.GetAxis("Mouse Y") * sensitivityY;
         ApplyRotate();
     }
 
