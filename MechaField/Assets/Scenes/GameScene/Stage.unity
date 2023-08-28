@@ -331,8 +331,8 @@ MonoBehaviour:
   sensitivityY: 1
   zoomSensitivity: 0.7
   zoomOutSpeed: 0.4
-  cameraDrag: 0.85
-  CameraSpeed: 30
+  cameraDrag: 0.8
+  CameraSpeed: 20
   AttackCameraSpeed: 60
   hitMask:
     serializedVersion: 2
@@ -826,7 +826,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025998520090157572, guid: d0d293a0bce7209469212439311c3f80, type: 3}
       propertyPath: m_Center.y
-      value: 0.5
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6025998520090157573, guid: d0d293a0bce7209469212439311c3f80, type: 3}
+      propertyPath: bGravity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6025998520090157574, guid: d0d293a0bce7209469212439311c3f80, type: 3}
       propertyPath: m_stat.moveSpeed
