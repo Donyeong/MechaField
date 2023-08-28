@@ -70,11 +70,11 @@ MonoBehaviour:
   airDrag: 0.3
   speed: 2
   velocity: {x: 0, y: 0, z: 0}
-  bGravity: 1
+  bGravity: 0
   wallNormal: {x: 0, y: 1, z: 0}
   moveMulSpeed: 1
   moveDir: {x: 0, y: 0, z: 0}
-  mGravity: 1
+  mGravity: 9.8
   wallForward: {x: 0, y: 0, z: 1}
 --- !u!114 &6025998520090157574
 MonoBehaviour:
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_stat:
     jumpPower: 0
-    moveSpeed: 0
+    moveSpeed: 30
     viewRange: 0
   blockMask:
     serializedVersion: 2
