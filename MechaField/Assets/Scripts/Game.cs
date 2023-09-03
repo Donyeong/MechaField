@@ -18,6 +18,10 @@ public class Game : Singleton<Game>
     {
         get => _commandManager;
     }
+    public NetworkCore netCore
+    {
+        get => net_core;
+    }
 
     public EventBus<GameEvent> eventBus = new EventBus<GameEvent>();
     public Player GetPlayer()
@@ -36,7 +40,7 @@ public class Game : Singleton<Game>
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
 
-
+        net_core = new NetworkCore();
         _actorManager = new ActorManager();
         _commandManager = new GameCommandManager();
     }
@@ -61,11 +65,7 @@ public class Game : Singleton<Game>
 
         await Task.Run(() =>
         {
-            if (net_core == null)
-            {
-                net_core = new NetworkCore();
-                result = net_core.Connect("127.0.0.1", 8888);
-            }
+            result = net_core.Connect("127.0.0.1", 8888);
         });
         if (result)
         {

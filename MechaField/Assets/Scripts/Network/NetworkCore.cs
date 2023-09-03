@@ -10,7 +10,8 @@ namespace DNNet {
 	public class NetworkCore
 	{
 		Session m_session;
-	
+		public EventBus<NetworkEvent> eventBus = new EventBus<NetworkEvent>();
+
 		public NetworkCore()
 		{
 			m_session = new Session();
@@ -22,6 +23,10 @@ namespace DNNet {
 			if(!result.is_success)
 			{
 				Debug.LogError($"error code {result.error_code}");
+				eventBus.Publish<NetworkDisconnect>(new NetworkDisconnect());
+			} else
+			{
+				eventBus.Publish<NetworkConnect>(new NetworkConnect());
 			}
 			return result.is_success;
 		}
