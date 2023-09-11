@@ -50,6 +50,17 @@ public class Game : Singleton<Game>
         //Game Start Logic
         // #1 Net
         RunNet();
+        eventBus.AddPostAction(SendPacket_GameEvent);
+    }
+
+    void SendPacket_GameEvent(GameEvent _game_event)
+    {
+        ByteBuffer byte_buffer = StaticObjectPool<ByteBuffer>.NewObject();
+        _game_event.Serialize(byte_buffer);
+
+        Session game_session = netCore.GetSession(eSessionType.GameServer);
+        game_session.SendDataToServer(byte_buffer.ToArray());
+
     }
 
 	// Update is called once per frame
@@ -65,7 +76,7 @@ public class Game : Singleton<Game>
 
         await Task.Run(() =>
         {
-            result = net_core.Connect("127.0.0.1", 8888);
+            result = net_core.ConnectGameServer("127.0.0.1", 8888);
         });
         if (result)
         {

@@ -55,6 +55,7 @@ public class Player : Actor
         if (Input.GetKeyDown(attackKey))
         {
             stateController.CallEvent(new AttackInputEvent());
+            Game.Instance.eventBus.Publish(new TestGameEvent());
         }
 
         HpRegen();

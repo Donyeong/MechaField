@@ -6,20 +6,30 @@ namespace DNNet {
 	{
 		Disconnect = 0,
 		Connect = 1
-}
+	}
+	public enum eSessionType
+	{
+		GameServer
+	}
 	public class NetworkCore
 	{
-		Session m_session;
+		public Dictionary<eSessionType ,Session> m_session;
 		public EventBus<NetworkEvent> eventBus = new EventBus<NetworkEvent>();
 
 		public NetworkCore()
 		{
-			m_session = new Session();
+			m_session = new Dictionary<eSessionType, Session>();
+			m_session.Add(eSessionType.GameServer, new Session());
 		}
 
-		public bool Connect(string _ip, int _port)
+		public Session GetSession(eSessionType _session_type)
 		{
-			NetworkResult result = m_session.ConnectGameServer(_ip, _port);
+			return m_session[_session_type];
+		}
+
+		public bool ConnectGameServer(string _ip, int _port)
+		{
+			NetworkResult result = GetSession(eSessionType.GameServer).ConnectGameServer(_ip, _port);
 			if(!result.is_success)
 			{
 				Debug.LogError($"error code {result.error_code}");

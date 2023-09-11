@@ -166,7 +166,6 @@ namespace DNNet
 			}
 		}
 
-
 		public void SendDataToServer(byte[] data, ePacketType packetType = ePacketType.TCP)
 		{
 			UpdateConnectionState();
