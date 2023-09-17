@@ -13,5 +13,6 @@ UCLASS()
 class UNREALMECHA_API ADNGameMode : public AGameMode
 {
 	GENERATED_BODY()
-	
+	ADNGameMode();
+	virtual void PostLogin(APlayerController* NewPlayer) override;
 };

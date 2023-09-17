@@ -3,6 +3,19 @@
 
 #include "DPlayer.h"
 
+void ADPlayer::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	AGLOG_S(Warning);
+
+}
+
+void ADPlayer::PossessedBy(AController* NewController)
+{
+	AGLOG_S(Warning);
+	Super::PossessedBy(NewController);
+}
+
 // Sets default values
 ADPlayer::ADPlayer()
 {

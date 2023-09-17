@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../UnrealMecha.h"
 #include "GameFramework/Character.h"
 #include "DPlayer.generated.h"
 
@@ -10,6 +10,8 @@ UCLASS()
 class UNREALMECHA_API ADPlayer : public ACharacter
 {
 	GENERATED_BODY()
+	virtual void PostInitializeComponents() override;
+	virtual void PossessedBy(AController* NewController) override;
 
 public:
 	// Sets default values for this character's properties
