@@ -6,8 +6,8 @@
 // Sets default values
 ADNPlayer::ADNPlayer()
 {
+	move_dir = FVector::Zero();
 	//Property 기본 값 세팅
-	move_speed = 0.5f;
 	camera_rotate_x = -60.0f;
 	camera_rotate_y = 0.0f;
 	camera_rotate_z = 0.0f;
@@ -59,7 +59,19 @@ void ADNPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	float CameraYaw = Camera->GetComponentRotation().Yaw;
+	FVector ForwardDirection = FVector(FMath::Cos(FMath::DegreesToRadians(CameraYaw)), FMath::Sin(FMath::DegreesToRadians(CameraYaw)), 0.0f);
+	move_dir = ForwardDirection * move_dir.X + ForwardDirection.RotateAngleAxis(90, FVector::UpVector) * move_dir.Y;
+	OnMove(move_dir);
 	UpdateAnimation();
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	{
+		if (PC->IsInputKeyDown(EKeys::SpaceBar))
+		{
+			Dash();
+		}
+	}
+	DashTick();
 	bIsMoving = false;
 }
 
@@ -67,45 +79,69 @@ void ADNPlayer::Tick(float DeltaTime)
 void ADNPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 	PlayerInputComponent->BindAxis(TEXT("UpDown"), this, &ADNPlayer::UpDown);
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &ADNPlayer::LeftRight);
-
 }
 
 void ADNPlayer::UpDown(float NewAxisValue)
 {
-	if (NewAxisValue != 0) {
-		AGLOG(Warning, TEXT("updown %f"), NewAxisValue);
-		OnMove(GetActorForwardVector() * NewAxisValue);
-	}
+	AGLOG(Warning, TEXT("UpDown %f"), NewAxisValue);
+	move_dir.X = NewAxisValue;
 }
 
 void ADNPlayer::LeftRight(float NewAxisValue)
 {
-	if (NewAxisValue != 0) {
-		AGLOG(Warning, TEXT("leftright %f"), NewAxisValue);
-		OnMove(GetActorRightVector() * NewAxisValue);
-	}
+	AGLOG(Warning, TEXT("LeftRight %f"), NewAxisValue);
+	move_dir.Y = NewAxisValue;
 }
 
 void ADNPlayer::OnMove(FVector _direction)
 {
-	float CameraYaw = Camera->GetComponentRotation().Yaw;
-	FVector ForwardDirection = FVector(FMath::Cos(FMath::DegreesToRadians(CameraYaw)), FMath::Sin(FMath::DegreesToRadians(CameraYaw)), 0.0f);
-	FVector CombinedDirection = ForwardDirection * _direction.X + ForwardDirection.RotateAngleAxis(90, FVector::UpVector) * _direction.Y;
+	if (_direction.IsZero()) {
+		return;
+	}
+	if (!dash_vector.IsZero()) {
+		return;
+	}
 
-	FRotator rot = CombinedDirection.Rotation() + FRotator(0.0f, -90.0f, 0.0f);
+	FRotator rot = _direction.Rotation() + FRotator(0.0f, -90.0f, 0.0f);
 	FRotator CurrentRotation = Mesh->GetComponentToWorld().GetRotation().Rotator();
 	float InterpSpeed = 15.0f;
 	FRotator trot = FMath::Lerp(CurrentRotation, rot, InterpSpeed * GetWorld()->GetDeltaSeconds());
 	Mesh->SetWorldRotation(trot);
-	AddMovementInput(CombinedDirection, move_speed);
+	AddMovementInput(_direction);
 	bIsMoving = true;
+}
+
+void ADNPlayer::DashTick()
+{
+	FVector StartLocation = GetActorLocation();
+	FVector EndLocation = StartLocation + dash_vector;
+	SetActorLocation(EndLocation);
+	float InterpSpeed = 15.0f;
+	dash_vector = FMath::VInterpTo(dash_vector, FVector::Zero(), GetWorld()->GetDeltaSeconds(), InterpSpeed);
+	if (dash_vector.Size() < dash_stop) {
+		dash_vector = FVector::Zero();
+	}
 }
 
 void ADNPlayer::UpdateAnimation()
 {
 	UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(Mesh->GetAnimInstance());
-	AnimInstance->isWalking = bIsMoving;
+	AnimInstance->isWalking = bIsMoving || !dash_vector.IsZero();
+}
+
+void ADNPlayer::Dash()
+{
+	if (!dash_vector.IsZero()) {
+		return;
+	}
+	FVector DashDirection = move_dir;
+	DashDirection.Normalize();
+	dash_vector = DashDirection * dash_power;
+}
+
+void ADNPlayer::StopDash()
+{
+	dash_vector = FVector::Zero();
 }

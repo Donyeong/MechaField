@@ -55,12 +55,21 @@ public:
 	TSubclassOf<UAnimInstance> PlayerAnim_BP;
 
 	UPROPERTY(EditAnywhere, Category = Stat)
-	float move_speed;
+	float dash_power;
+	UPROPERTY(EditAnywhere, Category = Stat)
+	float dash_stop;
 	UPROPERTY()
 	bool bIsMoving;
+	UPROPERTY()
+	FVector move_dir;
+	UPROPERTY()
+	FVector dash_vector;
 private:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
 	void OnMove(FVector _direction);
+	void DashTick();
+	void Dash();
+	void StopDash();
 	void UpdateAnimation();
 };
