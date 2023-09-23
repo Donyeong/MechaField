@@ -117,7 +117,16 @@ void ADNPlayer::DashTick()
 {
 	FVector StartLocation = GetActorLocation();
 	FVector EndLocation = StartLocation + dash_vector;
-	SetActorLocation(EndLocation);
+	//SetActorLocation(EndLocation, true);
+	FHitResult Hit(1.f);
+	Movement->SafeMoveUpdatedComponent(dash_vector, GetActorRotation(), true, Hit);
+
+	if (Hit.IsValidBlockingHit())
+	{
+		Movement->HandleImpact(Hit, GetWorld()->GetDeltaSeconds(), dash_vector);
+		// Try to slide the remaining distance along the surface.
+		Movement->SlideAlongSurface(dash_vector, 1.f - Hit.Time, Hit.Normal, Hit, true);
+	}
 	float InterpSpeed = 15.0f;
 	dash_vector = FMath::VInterpTo(dash_vector, FVector::Zero(), GetWorld()->GetDeltaSeconds(), InterpSpeed);
 	if (dash_vector.Size() < dash_stop) {
