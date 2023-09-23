@@ -2,15 +2,16 @@
 
 
 #include "DNPlayer.h"
-
+#include "MyAnimInstance.h"
 // Sets default values
 ADNPlayer::ADNPlayer()
 {
 	//Property 기본 값 세팅
+	move_speed = 0.5f;
 	camera_rotate_x = -60.0f;
 	camera_rotate_y = 0.0f;
 	camera_rotate_z = 0.0f;
-	camera_distance = 600.0f;
+	camera_distance = 200.0f;
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -31,11 +32,19 @@ ADNPlayer::ADNPlayer()
 	SpringArm->TargetArmLength = camera_distance;
 	SpringArm->SetRelativeRotation(FRotator(camera_rotate_x, camera_rotate_y, camera_rotate_z));
 
+
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_CARDBOARD(TEXT("/Game/GameResource/SwG_IDLE_V2.SwG_IDLE_V2"));
 	if (SK_CARDBOARD.Succeeded())
 	{
 		Mesh->SetSkeletalMesh(SK_CARDBOARD.Object);
 	}
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimBP(TEXT("/Game/Animation/PlayerAni.PlayerAni_C"));
+	if (AnimBP.Succeeded())
+	{
+		PlayerAnim_BP = AnimBP.Class;
+	}
+	AGCHECK(PlayerAnim_BP);
+	Mesh->SetAnimInstanceClass(PlayerAnim_BP);
 }
 
 // Called when the game starts or when spawned
@@ -50,6 +59,8 @@ void ADNPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UpdateAnimation();
+	bIsMoving = false;
 }
 
 // Called to bind functionality to input
@@ -64,13 +75,33 @@ void ADNPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ADNPlayer::UpDown(float NewAxisValue)
 {
-	AGLOG(Warning, TEXT("updown %f"), NewAxisValue);
-	AddMovementInput(GetActorForwardVector(), NewAxisValue);
+	if (NewAxisValue != 0) {
+		AGLOG(Warning, TEXT("updown %f"), NewAxisValue);
+		OnMove(GetActorForwardVector() * NewAxisValue);
+	}
 }
 
 void ADNPlayer::LeftRight(float NewAxisValue)
 {
-	AGLOG(Warning, TEXT("leftright %f"), NewAxisValue);
-	AddMovementInput(GetActorRightVector(), NewAxisValue);
+	if (NewAxisValue != 0) {
+		AGLOG(Warning, TEXT("leftright %f"), NewAxisValue);
+		OnMove(GetActorRightVector() * NewAxisValue);
+	}
 }
 
+void ADNPlayer::OnMove(FVector _direction)
+{
+	FRotator rot = _direction.Rotation() + FRotator(0.0f, -90.0f, 0.0f);
+	FRotator CurrentRotation = Mesh->GetComponentToWorld().GetRotation().Rotator();
+	float InterpSpeed = 15.0f;
+	FRotator trot = FMath::Lerp(CurrentRotation, rot, InterpSpeed * GetWorld()->GetDeltaSeconds());
+	Mesh->SetWorldRotation(trot);
+	AddMovementInput(_direction, move_speed);
+	bIsMoving = true;
+}
+
+void ADNPlayer::UpdateAnimation()
+{
+	UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(Mesh->GetAnimInstance());
+	AnimInstance->isWalking = bIsMoving;
+}

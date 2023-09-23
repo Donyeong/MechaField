@@ -1,12 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "UObject/ConstructorHelpers.h"
 #include "DNGameMode.h"
 #include "DNPlayer.h"
 #include "DNPlayerController.h"
 #include "../UnrealMecha.h"
 ADNGameMode::ADNGameMode() {
-	DefaultPawnClass = ADNPlayer::StaticClass();
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/DNPlayer_BP.DNPlayer_BP_C"));
+	check(NULL != PlayerPawnBPClass.Class);
+	DefaultPawnClass = PlayerPawnBPClass.Class;
+	
 	PlayerControllerClass = ADNPlayerController::StaticClass();
 }
 

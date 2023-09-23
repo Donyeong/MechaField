@@ -51,7 +51,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
 	float camera_rotate_z;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	TSubclassOf<UAnimInstance> PlayerAnim_BP;
+
+	UPROPERTY(EditAnywhere, Category = Stat)
+	float move_speed;
+	UPROPERTY()
+	bool bIsMoving;
 private:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
+	void OnMove(FVector _direction);
+	void UpdateAnimation();
 };
