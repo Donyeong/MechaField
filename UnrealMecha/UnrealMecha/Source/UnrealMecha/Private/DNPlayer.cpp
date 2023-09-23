@@ -91,12 +91,16 @@ void ADNPlayer::LeftRight(float NewAxisValue)
 
 void ADNPlayer::OnMove(FVector _direction)
 {
-	FRotator rot = _direction.Rotation() + FRotator(0.0f, -90.0f, 0.0f);
+	float CameraYaw = Camera->GetComponentRotation().Yaw;
+	FVector ForwardDirection = FVector(FMath::Cos(FMath::DegreesToRadians(CameraYaw)), FMath::Sin(FMath::DegreesToRadians(CameraYaw)), 0.0f);
+	FVector CombinedDirection = ForwardDirection * _direction.X + ForwardDirection.RotateAngleAxis(90, FVector::UpVector) * _direction.Y;
+
+	FRotator rot = CombinedDirection.Rotation() + FRotator(0.0f, -90.0f, 0.0f);
 	FRotator CurrentRotation = Mesh->GetComponentToWorld().GetRotation().Rotator();
 	float InterpSpeed = 15.0f;
 	FRotator trot = FMath::Lerp(CurrentRotation, rot, InterpSpeed * GetWorld()->GetDeltaSeconds());
 	Mesh->SetWorldRotation(trot);
-	AddMovementInput(_direction, move_speed);
+	AddMovementInput(CombinedDirection, move_speed);
 	bIsMoving = true;
 }
 
