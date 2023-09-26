@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../UnrealMecha.h"
+#include "DNBasePawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "DNPlayer.generated.h"
 
@@ -72,4 +72,5 @@ private:
 	void Dash();
 	void StopDash();
 	void UpdateAnimation();
+	void Attack(float NewAxisValue);
 };

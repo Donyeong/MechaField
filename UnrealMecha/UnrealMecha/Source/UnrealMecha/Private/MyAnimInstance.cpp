@@ -3,3 +3,6 @@
 
 #include "MyAnimInstance.h"
 
+UMyAnimInstance::UMyAnimInstance()
+{
+}

@@ -81,6 +81,7 @@ void ADNPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("UpDown"), this, &ADNPlayer::UpDown);
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &ADNPlayer::LeftRight);
+	PlayerInputComponent->BindAxis(TEXT("Attack"), this, &ADNPlayer::Attack);
 }
 
 void ADNPlayer::UpDown(float NewAxisValue)
@@ -138,6 +139,11 @@ void ADNPlayer::UpdateAnimation()
 {
 	UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(Mesh->GetAnimInstance());
 	AnimInstance->isWalking = bIsMoving || !dash_vector.IsZero();
+}
+
+void ADNPlayer::Attack(float NewAxisValue)
+{
+
 }
 
 void ADNPlayer::Dash()
