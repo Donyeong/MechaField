@@ -1,0 +1,16 @@
+{
+	"address" : 
+	{
+		"city" : "Los Angeles",
+		"zip_code" : "90001"
+	},
+	"age" : 25,
+	"email" : "jane.smith@example.com",
+	"hobbies" : 
+	[
+		"painting",
+		"dancing"
+	],
+	"is_student" : false,
+	"name" : "Jane Smith"
+}
