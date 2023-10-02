@@ -39,6 +39,9 @@
     <ClInclude Include="NetLogger.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="PacketBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DNetwork.cpp">
@@ -53,8 +56,11 @@
     <ClCompile Include="Serializer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="pch.h">
+    <ClCompile Include="DNetwork.h">
       <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketBase.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

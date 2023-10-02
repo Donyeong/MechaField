@@ -180,7 +180,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
   <ItemGroup>
     <ClCompile Include="DNetwork.cpp" />
     <ClCompile Include="PacketBase.cpp" />
-    <ClCompile Include="pch.h" />
+    <ClCompile Include="DNetwork.h" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpServer.cpp" />
