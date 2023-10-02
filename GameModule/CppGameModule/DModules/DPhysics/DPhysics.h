@@ -5,7 +5,7 @@
 #define MYDLL_DECLSPEC __declspec(dllimport)
 #endif
 
-#include <PxPhysicsAPI.h>
+#include <physx/PxPhysicsAPI.h>
 #include <vector>
 
 class MYDLL_DECLSPEC DPhysics

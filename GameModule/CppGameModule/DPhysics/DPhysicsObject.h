@@ -1,5 +1,5 @@
 #pragma once
-#include <PxPhysicsAPI.h>
+#include <physx/PxPhysicsAPI.h>
 #include "DCollider.h"
 class DPhysicsObject : public physx::PxActor
 {
