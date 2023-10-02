@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
-#include "DGenericLib/Containers.h"
+#include "../UnrealMecha.h"
+#include "DGameLogic/Framework/LogicMain.h"
 #include "DNGameMode.generated.h"
 /**
  * 
@@ -13,6 +14,9 @@ UCLASS()
 class UNREALMECHA_API ADNGameMode : public AGameMode
 {
 	GENERATED_BODY()
+
 	ADNGameMode();
 	virtual void PostLogin(APlayerController* NewPlayer) override;
+public:
+	virtual void Tick(float DeltaTime) override;
 };

@@ -16,8 +16,8 @@ namespace DLogic {
 		//DPhysics phys;
 		//phys.Init();
 		//phys.Init();
-		while (true) {
-			//phys.Update(1.0f / 60.0f);
-		}
+	}
+	void LogicMain::Update()
+	{
 	}
 }
