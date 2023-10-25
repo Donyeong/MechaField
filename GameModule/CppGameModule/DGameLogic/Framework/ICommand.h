@@ -7,4 +7,4 @@ namespace DLogic
 	public:
 		virtual void handle() = 0;
 	};
-}
+} 

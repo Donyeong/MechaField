@@ -86,13 +86,13 @@ void ADNPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ADNPlayer::UpDown(float NewAxisValue)
 {
-	AGLOG(Warning, TEXT("UpDown %f"), NewAxisValue);
+	//AGLOG(Warning, TEXT("UpDown %f"), NewAxisValue);
 	move_dir.X = NewAxisValue;
 }
 
 void ADNPlayer::LeftRight(float NewAxisValue)
 {
-	AGLOG(Warning, TEXT("LeftRight %f"), NewAxisValue);
+	//AGLOG(Warning, TEXT("LeftRight %f"), NewAxisValue);
 	move_dir.Y = NewAxisValue;
 }
 

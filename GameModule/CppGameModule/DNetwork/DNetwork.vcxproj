@@ -132,6 +132,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>

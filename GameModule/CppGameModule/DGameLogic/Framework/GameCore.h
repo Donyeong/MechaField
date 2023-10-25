@@ -1,5 +1,4 @@
 #pragma once
-#include "../dl_pch.h"
 #include "CommandManager.h"
 #include "Scene.h"
 namespace DLogic {
@@ -7,7 +6,7 @@ namespace DLogic {
 		
 	public:
 		void Start();
-		void Update();
+		void Update(float _delta_time);
 		void PutScene(int _hash_key, Scene* _scene);
 		Scene* GetScene(int _hash_key);
 		void LoadScene(Scene* _scene);
@@ -15,6 +14,7 @@ namespace DLogic {
 		void BuildScene();
 	private:
 		CommandManager m_command_manager;
+		EventBus<int> m_event_bus;
 		DGeneric::HashMap<int, Scene*> m_map_scene;
 		int m_current_scene;
 	};

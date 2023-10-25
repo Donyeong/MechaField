@@ -128,10 +128,11 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DDEBUG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -140,6 +141,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     </Link>
     <PostBuildEvent>
       <Command>echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)DModules\$(ProjectName)"
+echo D|XCOPY /S /Y /R "$(TargetDir)*.dll" "$(SolutionDir)DModules\$(ProjectName)"
 echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -149,10 +151,11 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DDEBUG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -163,15 +166,19 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     </Link>
     <PostBuildEvent>
       <Command>echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)DModules\$(ProjectName)"
+echo D|XCOPY /S /Y /R "$(TargetDir)*.dll" "$(SolutionDir)DModules\$(ProjectName)"
 echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="DLogger.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="DLogger.cpp" />
     <ClCompile Include="DUtil.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

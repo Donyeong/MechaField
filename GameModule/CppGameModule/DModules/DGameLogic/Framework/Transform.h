@@ -1,3 +1,4 @@
+#pragma once
 #include "../../DGenericLib/Vector3.h"
 #include "../../DGenericLib/Quaternion.h"
 class Transform { 

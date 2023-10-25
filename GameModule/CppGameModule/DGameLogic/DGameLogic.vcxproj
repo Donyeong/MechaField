@@ -132,6 +132,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -140,8 +141,14 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     </Link>
     <PostBuildEvent>
       <Command>echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)DModules\$(ProjectName)"
-echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"</Command>
+echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
+echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)..\..\UnrealMecha\UnrealMecha\Source\ThirdParty"
+
+</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)DModules;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -151,7 +158,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -163,8 +170,14 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     </Link>
     <PostBuildEvent>
       <Command>echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)DModules\$(ProjectName)"
-echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"</Command>
+echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
+echo D|XCOPY /S /Y /R "$(TargetDir)*.lib" "$(SolutionDir)..\..\UnrealMecha\UnrealMecha\Source\ThirdParty"
+
+</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)DModules;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Content\Actor.h" />
@@ -174,6 +187,7 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     <ClInclude Include="Content\StateMainLogic_Init.h" />
     <ClInclude Include="Content\StateMainLogic_Run.h" />
     <ClInclude Include="DConfig.h" />
+    <ClInclude Include="DEventBus.h" />
     <ClInclude Include="dl_pch.h" />
     <ClInclude Include="Framework\CommandManager.h" />
     <ClInclude Include="Framework\Component.h" />
@@ -187,8 +201,11 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\SceneLoader.h" />
     <ClInclude Include="Framework\Transform.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GameObjectSyncronizer.h" />
+    <ClInclude Include="KDTree.h" />
+    <ClInclude Include="MapGenerator.h" />
     <ClInclude Include="RootObject.h" />
     <ClInclude Include="SyncronizeObject.h" />
   </ItemGroup>
@@ -197,16 +214,26 @@ echo D|XCOPY /S /Y /R "$(ProjectDir)*.h" "$(SolutionDir)DModules\$(ProjectName)"
     <None Include="scene.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Content\Actor.cpp" />
     <ClCompile Include="DConfig.cpp" />
+    <ClCompile Include="EventBus.cpp" />
     <ClCompile Include="Framework\GameCore.cpp" />
     <ClCompile Include="Framework\GameObject.cpp" />
     <ClCompile Include="Framework\LogicMain.cpp" />
     <ClCompile Include="Framework\SceneLoader.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GameObjectSyncronizer.cpp" />
+    <ClCompile Include="KDTree.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
     <ClCompile Include="RootObject.cpp" />
     <ClCompile Include="SyncronizeObject.cpp" />
     <ClCompile Include="소스.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DUtil\DUtil.vcxproj">
+      <Project>{15f86de4-02de-42cd-906a-7b9ffacdfce1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
