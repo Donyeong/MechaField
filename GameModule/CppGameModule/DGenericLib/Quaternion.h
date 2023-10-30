@@ -4,7 +4,9 @@ namespace DGeneric
 {
 	class Quaternion {
 	public:
-		Quaternion() = default;
+		Quaternion() : x(0), y(0), z(0), w(0) {
+
+		}
 		~Quaternion() = default;
 	public:
 		union

@@ -3,6 +3,7 @@
 #include "../../DGenericLib/Quaternion.h"
 class Transform { 
 public:	
+	Transform() = default;
 	DGeneric::Vector3 position;
 	DGeneric::Vector3 scale;
 	DGeneric::Quaternion rotation;

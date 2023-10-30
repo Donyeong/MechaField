@@ -17,16 +17,21 @@ namespace DLogic {
 		void RemoveParent();
 		void AddChild(GameObject* _child);
 		void SetParent(GameObject* _parent);
+		const DGeneric::Vector<GameObject*>& GetChilds() {
+			return childs;
+		}
 		GameObject* GetParent();
 		Scene* GetScene() {
 			return owner_scene;
 		}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(float _delta_time) {}
 	private:
 		DGeneric::Vector<Component*> components;
 		DGeneric::Vector<GameObject*> childs;
 		GameObject* m_parent;
 		Scene* owner_scene;
+	public:
+		int object_id;
 	};
 
 }

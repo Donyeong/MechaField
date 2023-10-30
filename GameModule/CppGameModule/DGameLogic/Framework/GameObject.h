@@ -24,7 +24,7 @@ namespace DLogic {
 		Scene* GetScene() {
 			return owner_scene;
 		}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(float _delta_time) {}
 	private:
 		DGeneric::Vector<Component*> components;
 		DGeneric::Vector<GameObject*> childs;

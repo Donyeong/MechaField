@@ -50,7 +50,7 @@ namespace DLogic
 
 			while (!update_stack.empty()) {
 				GameObject* obj = update_stack.top();
-				obj->OnUpdate();
+				obj->OnUpdate(_delta_time);
 				const DGeneric::Vector<GameObject*>& childs = obj->GetChilds();
 				for (auto i = childs.begin(); i != childs.end(); i++) {
 					update_stack.push(*i);

@@ -4,6 +4,6 @@ namespace DLogic
 {
 	class IUpdatable
 	{
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate(float _delta_time) = 0;
 	};
 }
